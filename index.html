@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SociVerse - Your Social Universe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-globe"></i>
+                <h1>SociVerse</h1>
+            </div>
+            <p>Loading your social universe...</p>
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <!-- Auth Screens -->
+    <div id="authContainer" class="auth-container">
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-form active">
+            <div class="auth-header">
+                <i class="fas fa-globe auth-logo"></i>
+                <h2>Welcome to SociVerse</h2>
+                <p>Your social universe awaits</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="loginEmail"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="loginPassword"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                <button type="button" class="show-password" onclick="togglePassword('loginPassword')">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            
+            <button class="auth-btn" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="#" onclick="showRegister()">Sign up</a></p>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+            
+            <div class="demo-login">
+                <p>Try demo account:</p>
+                <button class="demo-btn" onclick="fillDemoCredentials()">
+                    <i class="fas fa-user-secret"></i> Use Demo Account
+                </button>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="auth-form">
+            <div class="auth-header">
+                <i class="fas fa-user-plus auth-logo"></i>
+                <h2>Join SociVerse</h2>
+                <p>Create your account</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerName"><i class="fas fa-user"></i> Full Name</label>
+                <input type="text" id="registerName" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerEmail"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="registerEmail" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerPassword"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="registerPassword" placeholder="Create password" required>
+                <button type="button" class="show-password" onclick="togglePassword('registerPassword')">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            
+            <div class="form-group">
+                <label for="registerConfirmPassword"><i class="fas fa-lock"></i> Confirm Password</label>
+                <input type="password" id="registerConfirmPassword" placeholder="Confirm password" required>
+            </div>
+            
+            <button class="auth-btn" onclick="register()">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
+            
+            <div class="auth-footer">
+                <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App (Hidden initially) -->
+    <div id="appContainer" class="app-container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fas fa-globe"></i>
+                    <span>SociVerse</span>
+                </div>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search friends, posts...">
+                </div>
+            </div>
+            
+            <div class="nav-center">
+                <a href="#feed" class="nav-link active" onclick="showSection('feed')">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#friends" class="nav-link" onclick="showSection('friends')">
+                    <i class="fas fa-user-friends"></i>
+                    <span>Friends</span>
+                </a>
+                <a href="#messages" class="nav-link" onclick="showSection('messages')">
+                    <i class="fas fa-comments"></i>
+                    <span>Messages</span>
+                    <span class="badge" id="messageBadge">3</span>
+                </a>
+                <a href="#notifications" class="nav-link" onclick="showSection('notifications')">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                    <span class="badge" id="notificationBadge">5</span>
+                </a>
+            </div>
+            
+            <div class="nav-right">
+                <div class="user-profile" onclick="toggleProfileMenu()">
+                    <img src="https://i.pravatar.cc/40" alt="Profile" id="userProfilePic">
+                    <span id="userName">User Name</span>
+                    <i class="fas fa-chevron-down"></i>
+                    
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="#profile" onclick="showSection('profile')">
+                            <i class="fas fa-user"></i> My Profile
+                        </a>
+                        <a href="#settings" onclick="showSection('settings')">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                        <a href="#logout" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Sidebar -->
+            <aside class="sidebar left-sidebar">
+                <!-- User Profile Card -->
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <img src="https://i.pravatar.cc/80" alt="Profile" id="mainProfilePic">
+                        <div class="profile-info">
+                            <h3 id="mainUserName">John Doe</h3>
+                            <p id="userEmail">john@example.com</p>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <strong id="friendCount">150</strong>
+                            <span>Friends</span>
+                        </div>
+                        <div class="stat">
+                            <strong id="postCount">45</strong>
+                            <span>Posts</span>
+                        </div>
+                    </div>
+                    <button class="edit-profile-btn" onclick="showSection('profile')">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+
+                <!-- Friends Online -->
+                <div class="online-friends">
+                    <h3><i class="fas fa-circle online-icon"></i> Online Friends</h3>
+                    <div id="onlineFriendsList" class="friends-list">
+                        <!-- Online friends will be added here -->
+                    </div>
+                </div>
+
+                <!-- Trending Hashtags -->
+                <div class="trending-tags">
+                    <h3><i class="fas fa-fire"></i> Trending Now</h3>
+                    <div class="tags">
+                        <span class="tag" onclick="searchTag('#SocialMedia')">#SocialMedia</span>
+                        <span class="tag" onclick="searchTag('#Connect')">#Connect</span>
+                        <span class="tag" onclick="searchTag('#NewFriends')">#NewFriends</span>
+                        <span class="tag" onclick="searchTag('#Community')">#Community</span>
+                        <span class="tag" onclick="searchTag('#Share')">#Share</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Content -->
+            <main class="center-content">
+                <!-- Create Post -->
+                <div class="create-post-card">
+                    <div class="post-input">
+                        <img src="https://i.pravatar.cc/40" alt="Profile" id="createPostProfilePic">
+                        <textarea placeholder="What's on your mind?" id="postText"></textarea>
+                    </div>
+                    <div class="post-options">
+                        <button class="post-option" onclick="openMediaUpload('photo')">
+                            <i class="fas fa-image" style="color: #45bd62;"></i>
+                            <span>Photo/Video</span>
+                        </button>
+                        <button class="post-option" onclick="openMediaUpload('video')">
+                            <i class="fas fa-video" style="color: #f5533d;"></i>
+                            <span>Live Video</span>
+                        </button>
+                        <button class="post-option" onclick="addFeeling()">
+                            <i class="fas fa-smile" style="color: #f7b928;"></i>
+                            <span>Feeling</span>
+                        </button>
+                        <button class="post-btn" onclick="createNewPost()">
+                            <i class="fas fa-paper-plane"></i> Post
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Media Upload Modal -->
+                <div id="mediaUploadModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-modal" onclick="closeMediaUpload()">&times;</span>
+                        <h3>Add Photos/Video</h3>
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop or click to upload</p>
+                            <input type="file" id="mediaInput" accept="image/*,video/*" multiple>
+                            <button class="browse-btn" onclick="document.getElementById('mediaInput').click()">
+                                Browse Files
+                            </button>
+                        </div>
+                        <div class="selected-files" id="selectedFiles"></div>
+                        <button class="upload-btn" onclick="uploadMedia()">
+                            <i class="fas fa-upload"></i> Upload
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Posts Feed -->
+                <div id="postsFeed" class="posts-feed">
+                    <div class="feed-header">
+                        <h2><i class="fas fa-newspaper"></i> News Feed</h2>
+                        <div class="feed-filter">
+                            <button class="filter-btn active" onclick="filterPosts('all')">All</button>
+                            <button class="filter-btn" onclick="filterPosts('friends')">Friends</button>
+                            <button class="filter-btn" onclick="filterPosts('popular')">Popular</button>
+                        </div>
+                    </div>
+                    
+                    <div id="postsContainer" class="posts-container">
+                        <!-- Posts will be loaded here -->
+                    </div>
+                    
+                    <div class="load-more">
+                        <button id="loadMoreBtn" onclick="loadMorePosts()">
+                            <i class="fas fa-sync"></i> Load More Posts
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Friends Section -->
+                <div id="friendsSection" class="section-content" style="display: none;">
+                    <h2><i class="fas fa-user-friends"></i> Friends</h2>
+                    <div class="friends-grid" id="friendsGrid">
+                        <!-- Friends will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Messages Section -->
+                <div id="messagesSection" class="section-content" style="display: none;">
+                    <h2><i class="fas fa-comments"></i> Messages</h2>
+                    <div class="messages-container">
+                        <div class="chat-list">
+                            <!-- Chat list will be loaded here -->
+                        </div>
+                        <div class="chat-window">
+                            <div class="no-chat-selected">
+                                <i class="fas fa-comment-dots"></i>
+                                <h3>Select a conversation</h3>
+                                <p>Choose a friend to start chatting</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Section -->
+                <div id="notificationsSection" class="section-content" style="display: none;">
+                    <h2><i class="fas fa-bell"></i> Notifications</h2>
+                    <div class="notifications-list" id="notificationsList">
+                        <!-- Notifications will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Profile Section -->
+                <div id="profileSection" class="section-content" style="display: none;">
+                    <div class="profile-header">
+                        <div class="profile-cover">
+                            <div class="cover-photo">
+                                <button class="change-cover" onclick="changeCoverPhoto()">
+                                    <i class="fas fa-camera"></i> Change Cover
+                                </button>
+                            </div>
+                            <div class="profile-details">
+                                <img src="https://i.pravatar.cc/100" alt="Profile" class="profile-photo-large">
+                                <div class="profile-info">
+                                    <h2 id="profileName">John Doe</h2>
+                                    <p id="profileBio">Digital Creator | Tech Enthusiast</p>
+                                    <div class="profile-links">
+                                        <span><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</span>
+                                        <span><i class="fas fa-link"></i> www.johndoe.com</span>
+                                    </div>
+                                </div>
+                                <button class="edit-profile-main" onclick="openEditProfile()">
+                                    <i class="fas fa-edit"></i> Edit Profile
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-content">
+                        <div class="profile-posts">
+                            <h3>Your Posts</h3>
+                            <div id="profilePosts"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settingsSection" class="section-content" style="display: none;">
+                    <h2><i class="fas fa-cog"></i> Settings</h2>
+                    <div class="settings-container">
+                        <!-- Settings will be loaded here -->
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Sidebar -->
+            <aside class="sidebar right-sidebar">
+                <!-- Friend Requests -->
+                <div class="friend-requests">
+                    <h3><i class="fas fa-user-plus"></i> Friend Requests</h3>
+                    <div id="friendRequestsList">
+                        <!-- Friend requests will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Birthdays -->
+                <div class="birthdays">
+                    <h3><i class="fas fa-birthday-cake"></i> Upcoming Birthdays</h3>
+                    <div id="birthdaysList">
+                        <!-- Birthdays will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Events -->
+                <div class="events">
+                    <h3><i class="fas fa-calendar-alt"></i> Events</h3>
+                    <div id="eventsList">
+                        <!-- Events will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="quick-links">
+                    <h3><i class="fas fa-link"></i> Quick Links</h3>
+                    <div class="links">
+                        <a href="#privacy"><i class="fas fa-shield-alt"></i> Privacy</a>
+                        <a href="#help"><i class="fas fa-question-circle"></i> Help Center</a>
+                        <a href="#about"><i class="fas fa-info-circle"></i> About SociVerse</a>
+                        <a href="#feedback"><i class="fas fa-comment"></i> Send Feedback</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Floating Action Button -->
+        <button class="fab" onclick="openQuickPost()">
+            <i class="fas fa-plus"></i>
+        </button>
+
+        <!-- Quick Post Modal -->
+        <div id="quickPostModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeQuickPost()">&times;</span>
+                <h3>Create Quick Post</h3>
+                <textarea placeholder="What's happening?" id="quickPostText"></textarea>
+                <button class="post-btn" onclick="createQuickPost()">
+                    <i class="fas fa-paper-plane"></i> Post Now
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SociVerse</h4>
+                    <p>Connect with friends, share moments, and discover new communities in your social universe.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                    <a href="#terms">Terms</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SociVerse. All rights reserved. | Made with <i class="fas fa-heart"></i></p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMessage">Action completed successfully!</span>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
