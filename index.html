@@ -11,6 +11,231 @@
     #feed div { border: 1px solid #ccc; margin: 10px 0; padding: 10px; }
   </style>
 </head>
+         <!DOCTYPE html>
+<html>
+<head>
+    <title>SociVerse - Working Version</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        .logo {
+            color: #667eea;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        
+        .demo-btn {
+            background: #4a5568;
+        }
+        
+        .demo-btn:hover {
+            background: #2d3748;
+        }
+        
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            background: #48bb78;
+            color: white;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-box">
+    <div class="logo">🌐</div>
+    <h2>SociVerse</h2>
+    <p style="color: #666; margin-bottom: 20px;">Your Social Universe</p>
+    
+    <input type="email" id="email" placeholder="Email" value="john@demo.com">
+    <input type="password" id="password" placeholder="Password" value="demo123">
+    
+    <button onclick="login()">🔐 LOGIN TO SOCIVERSE</button>
+    <button class="demo-btn" onclick="useDemo()">👤 USE DEMO ACCOUNT</button>
+    
+    <div id="message" class="message"></div>
+    
+    <p style="margin-top: 20px; color: #666;">
+        Don't have account? <a href="#" style="color: #667eea;" onclick="alert('Coming soon!')">Sign up</a>
+    </p>
+</div>
+
+<script>
+    // Show message function
+    function showMessage(text, type = 'success') {
+        const msg = document.getElementById('message');
+        msg.textContent = text;
+        msg.style.display = 'block';
+        msg.style.background = type === 'error' ? '#f56565' : '#48bb78';
+        
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 3000);
+    }
+    
+    // Use demo account
+    function useDemo() {
+        document.getElementById('email').value = 'john@demo.com';
+        document.getElementById('password').value = 'demo123';
+        showMessage('Demo credentials filled! Click Login button.');
+    }
+    
+    // Login function
+    function login() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // Check credentials
+        if(email === 'john@demo.com' && password === 'demo123') {
+            showMessage('✅ Login successful! Loading SociVerse...');
+            
+            // Wait 2 seconds then show main app
+            setTimeout(() => {
+                showMainApp();
+            }, 2000);
+        }
+        // Your account
+        else if(email === 'your@gmail.com' && password === 'yourpassword') {
+            showMessage('✅ Welcome! Loading your profile...');
+            setTimeout(() => {
+                showMainApp();
+            }, 2000);
+        }
+        else {
+            showMessage('❌ Invalid credentials! Use: john@demo.com / demo123', 'error');
+        }
+    }
+    
+    // Show main SociVerse app
+    function showMainApp() {
+        // Hide login
+        document.querySelector('.login-box').style.display = 'none';
+        
+        // Create and show main app
+        const appHTML = `
+            <div style="background: white; width: 100%; min-height: 100vh; padding: 20px;">
+                <div style="background: #667eea; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h1 style="display: flex; align-items: center; gap: 10px;">
+                        🌐 SociVerse
+                        <span style="font-size: 14px; background: white; color: #667eea; padding: 5px 10px; border-radius: 20px;">WORKING ✓</span>
+                    </h1>
+                    <p>Your social universe is now live!</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 250px 1fr; gap: 20px;">
+                    <!-- Left Sidebar -->
+                    <div style="background: #f7fafc; padding: 20px; border-radius: 10px;">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div style="width: 80px; height: 80px; background: #667eea; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px;">
+                                👤
+                            </div>
+                            <h3>John Doe</h3>
+                            <p style="color: #666;">@johndemo</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <button style="width: 100%; margin-bottom: 10px;">📝 Create Post</button>
+                            <button style="width: 100%; margin-bottom: 10px;">👥 Friends</button>
+                            <button style="width: 100%; margin-bottom: 10px;">🔔 Notifications</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Main Feed -->
+                    <div>
+                        <div style="background: #f7fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                            <h3>📰 News Feed</h3>
+                            <p style="color: green; margin: 10px 0;">✅ SociVerse is working perfectly!</p>
+                            
+                            <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                                <p><strong>John Doe</strong> - Just now</p>
+                                <p>Welcome to SociVerse! Everything is working now! 🎉</p>
+                                <button style="padding: 5px 15px; margin-right: 10px;">👍 Like</button>
+                                <button style="padding: 5px 15px;">💬 Comment</button>
+                            </div>
+                            
+                            <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                                <p><strong>Sarah Smith</strong> - 2 hours ago</p>
+                                <p>This new social media looks amazing! 😍</p>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <button onclick="createPost()" style="padding: 15px 30px; background: #48bb78; color: white; border: none; border-radius: 8px; font-size: 16px;">
+                                ✨ Create Your First Post
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px; color: #666;">
+                    <p>SociVerse v1.0 | Made with ❤️ | All systems working ✓</p>
+                    <button onclick="location.reload()" style="margin-top: 10px; padding: 10px 20px; background: #e53e3e; color: white; border: none; border-radius: 5px;">
+                        🔄 Restart
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.innerHTML = appHTML;
+        document.body.style.background = '#f7fafc';
+    }
+    
+    // Create post function
+    function createPost() {
+        alert('🎉 Post created successfully!\n\nYour post
 <body>
   <h1>Welcome to SociVerse</h1>
 
